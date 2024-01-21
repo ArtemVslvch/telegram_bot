@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#Остановка скрипта передачей сигнала SIGINT
+#pkill -2 -f bash_bot.sh
+
 #Поправь логирование
 #Переработай сбор метрик
 #Добавь service systemd
@@ -84,6 +87,13 @@ commands() {
   esac
 }
 
+stop_script() {
+  log "Stopping script..."
+  echo "Stopping script..."
+  exit 0
+}
+
+trap 'stop_script' SIGINT
 
 #######LOOP#############
 while true; do
