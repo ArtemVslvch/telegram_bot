@@ -11,15 +11,15 @@
 #vars
 TOKEN="6856700358:AAECiPV0PQmmDxmUSEBAQVsWt3Dxjj4yoms"
 CHAT_ID="566855756"
-message="Hello world -_-"
-send_message_log="send_message.log"
-offset_file="offset.txt"
+MESSAGE="Hello world -_-"
+SEND_MESSAGE_LOG="send_message.log"
+OFFSET_FILE="offset.txt"
 
 log() {
-  echo "$(date): Sending message: $1" >> $send_message_log
+  echo "$(date): Sending message: $1" >> $SEND_MESSAGE_LOG
 }
 
-
+    
 send_message() {
   curl -s -X POST "https://api.telegram.org/bot$TOKEN/sendMessage" -d "chat_id=$CHAT_ID&text=$1" >> curl.log  2>&1
 }
@@ -27,7 +27,7 @@ send_message() {
 get_message() {
   #GET message
   ##get offset old message
-  offset=$(cat "$offset_file")
+  offset=$(cat "$OFFSET_FILE")
 
   ##get message
   updates=$(curl -s "https://api.telegram.org/bot$TOKEN/getUpdates?offset=$offset")
@@ -47,7 +47,7 @@ get_message() {
     echo "$text"
   }
   ##save offset
-  echo "$updates" | jq ".result[-1].update_id"  > $offset_file
+  echo "$updates" | jq ".result[-1].update_id"  > $OFFSET_FILE
   fi
 }
 
